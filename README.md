@@ -71,9 +71,19 @@ export default {
 ここを見て対処してください
 https://qiita.com/riversun/items/7f1679509f38b1ae8adb
 
+多くの場合は下記のコマンドでnpmのpackage.jsonにかかれているもののアップデートを行うことで解消されます
+```bash
+$ npm install -g npm-check-updates
+$ npm-check-updates -u
+$ npm update
+```
+
 ## References
 DockerでNuxt.jsを起動するまで
 https://qiita.com/shun012526/items/a9137fcbaae303500ce1 (参照 2021.07.31)
+
+npmのpackage.jsonを最新のバージョンに更新する
+https://omachizura.com/2016/02/npm-package-new.html (参照 2021.07.31)
 ## Author
  
 * 作成者: sinohiro

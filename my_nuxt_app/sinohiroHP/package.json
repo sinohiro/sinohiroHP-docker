@@ -9,10 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "nuxt": "^2.13.3"
+    "@nuxtjs/pwa": "^3.3.5",
+    "chokidar": "^3.5.2",
+    "nuxt": "^2.15.7"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.11.2"
+    "@nuxtjs/vuetify": "^1.12.1"
   }
 }
