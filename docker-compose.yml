@@ -1,0 +1,19 @@
+# Dockerのバージョン
+version: '3'
+
+services:
+ nuxt:
+   container_name: nuxt_app
+   build: .
+
+   # イメージ名
+   image: nuxt_app_image
+
+   # ホストOSとコンテナ内でソースコードを共有
+   volumes:
+    - ./my_nuxt_app:/app
+   tty: true
+
+   # コンテナ内部の9000を外部から9000でアクセス
+   ports:
+    - "3000:3000"
