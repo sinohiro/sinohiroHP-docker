@@ -84,6 +84,12 @@ https://qiita.com/shun012526/items/a9137fcbaae303500ce1 (参照 2021.07.31)
 
 npmのpackage.jsonを最新のバージョンに更新する
 https://omachizura.com/2016/02/npm-package-new.html (参照 2021.07.31)
+
+Nuxt × Vuetifyの状況下でv-btnをnuxt-linkにして使いたい
+https://qiita.com/checche/items/810a71d8f1f93b251aae (参照 2021.07.31)
+
+VuetifyでFont Awesomeを使う方法
+https://shigu493.com/vuetify%E3%81%A7font-awesome%E3%82%92%E4%BD%BF%E3%81%86%E6%96%B9%E6%B3%95/ (参照 2021.07.31)
 ## Author
  
 * 作成者: sinohiro
