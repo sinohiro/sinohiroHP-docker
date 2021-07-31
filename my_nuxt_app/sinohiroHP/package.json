@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "@nuxtjs/pwa": "^3.3.5",
     "chokidar": "^3.5.2",
     "nuxt": "^2.15.7"
