@@ -6,7 +6,8 @@
 
 ## Requirement
  
-* npm
+* docker
+* docker-compose
 
 ## Docker Setup
 ```bash
@@ -54,7 +55,7 @@ npm run dev
 ```
 ## Attention
  
-# server_ip_addressの設定は[nuxt.config.js]の中に以下のフォーマットで入力してください
+### server_ip_addressの設定は[nuxt.config.js]の中に以下のフォーマットで入力してください
 
 ```js
 export default {
@@ -65,7 +66,7 @@ export default {
 }
 ```
 
-# npm run した際にseverity vulnerabilitiesと出た場合.
+### npm run した際にseverity vulnerabilitiesと出た場合.
 ここを見て対処してください
 https://qiita.com/riversun/items/7f1679509f38b1ae8adb
 
