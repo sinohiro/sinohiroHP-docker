@@ -12,7 +12,6 @@
         v-for="(item, i) in items"
         :key="i"
         :src="item.src"
-        :slide="slides"
       >
           <v-row
             class="fill-height"
