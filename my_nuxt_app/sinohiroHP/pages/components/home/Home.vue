@@ -9,7 +9,7 @@
     >
       <v-container>
         <v-row class="home-contents">
-          <v-col md="7">
+          <v-col>
             <h3>Profile</h3>
             <h2>Name</h2>
             <p>sinohiro</p>
@@ -38,7 +38,12 @@
           </v-col>
           
           <v-col md="3" class="home-contents-img">
-            <img src="../../../assets/img/sinohirosan.png">
+            <v-img 
+              :src="require('@/assets/img/sinohirosan.png')"
+              max-height="500"
+              max-width="500"
+              class="ma-1"
+            ></v-img>
           </v-col>
         </v-row>
       </v-container>

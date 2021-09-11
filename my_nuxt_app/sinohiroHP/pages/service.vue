@@ -44,6 +44,7 @@ export default {
 .about {
   height:100%;
   background-color: #333;
+  padding-bottom: 35px;
 }
 
 h1 {

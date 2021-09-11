@@ -52,15 +52,13 @@
                       ></v-btn>
                     </v-card-actions>
                   </div>
- 
-                  <v-avatar
+                  <v-img 
                     v-if="infomationItem.img !== null"
                     class="ma-3"
-                    size="200"
-                    tile
-                  >
-                    <img :src="require('@/assets/img/' + infomationItem.img)">
-                  </v-avatar>
+                    max-height="200"
+                    max-width="200"
+                    :src="require('@/assets/img/' + infomationItem.img)"
+                  ></v-img>
                 </div>
               </v-card>
             </v-col>
@@ -75,7 +73,7 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
-import imfomation from './common/imfomation'
+import imfomation from './common/imfomation.js'
  
 export default {
   name: 'infomation',
@@ -96,6 +94,7 @@ export default {
 .about {
   height:100%;
   background-color: #333;
+  padding-bottom: 35px;
 }
 
 h1 {
