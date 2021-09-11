@@ -3,8 +3,7 @@
     <AppHeader/>
     <v-main>
       <section class="about">
-        <v-container>
-          <v-card
+        <v-card
             color="#333"
             dark
             tile
@@ -19,6 +18,8 @@
               </v-row>
             </v-container>
           </v-card>
+        <v-container>
+          
           <v-row dense>
             <v-col
               v-for="(infomationItem, i) in infomationItems"

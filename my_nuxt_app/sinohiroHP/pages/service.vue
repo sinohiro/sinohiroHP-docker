@@ -3,22 +3,23 @@
     <AppHeader/>
     <v-main>
       <section class="about">
-        <v-container>
-          <v-card
+        <v-card
             color="#333"
             dark
             tile
           >
-            <v-container>
-              <v-row class="home-contents">
-                <v-col>
-                  <div class="text-center">
-                    <h3>Service</h3>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-container>
+          <v-container>
+            <v-row class="home-contents">
+              <v-col>
+                <div class="text-center">
+                  <h3>Service</h3>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
           </v-card>
+        <v-container>
+          
           
         </v-container>
       </section>
