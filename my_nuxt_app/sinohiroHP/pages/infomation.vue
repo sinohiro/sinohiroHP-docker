@@ -59,7 +59,7 @@
                     size="200"
                     tile
                   >
-                    <v-img :src="infomationItem.img"></v-img>
+                    <img :src="require('@/assets/img/' + infomationItem.img)">
                   </v-avatar>
                 </div>
               </v-card>

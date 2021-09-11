@@ -5,7 +5,7 @@ export default {
         name: '2021年 U-16プログラミングコンテスト釧路大会 開催決定',
         date: '2021.09.11',
         contents: '2021年 U-16プログラミングコンテスト釧路大会の開催が決定しました',
-        img: '/assets/img/u-16_kushiro.jpg',
+        img: 'u-16_kushiro.jpg',
         linkname: 'U-16プログラミングコンテスト釧路大会 ホームページ',
         url: 'https://procon.946oss.net/'
       },
