@@ -1,7 +1,6 @@
 <template>
   <section class="home">
     <HomeHero/>
-
     <v-card
       color="#333"
       dark

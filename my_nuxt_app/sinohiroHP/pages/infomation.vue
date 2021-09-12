@@ -7,19 +7,19 @@
             color="#333"
             dark
             tile
-          >
-            <v-container>
-              <v-row class="home-contents">
-                <v-col>
-                  <div class="text-center">
-                    <h3>Infomation</h3>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        <v-container>
-          
+        >
+          <v-container>
+            <v-row class="home-contents">
+              <v-col>
+                <div class="text-center">
+                  <h3>Infomation</h3>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+
+        <v-container> 
           <v-row dense>
             <v-col
               v-for="(infomationItem, i) in infomationItems"
