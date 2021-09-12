@@ -7,6 +7,6 @@ WORKDIR /app
 RUN apk update && \
  apk add git && \
  npm install -g npm && \
- npm install -g vue-cli
+ npm install -g vue-cli 
 
 EXPOSE 3000
