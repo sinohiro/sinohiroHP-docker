@@ -11,7 +11,7 @@
       <v-carousel-item
         v-for="(item, i) in items"
         :key="i"
-        :src="item.src"
+        :src="require('@/assets/bg_img/' + item.src)"
       >
           <v-row
             class="fill-height"
@@ -66,22 +66,22 @@ h1 {
       return {
         items: [
           {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-            title: 'Minecraft',
+            src: 'minecraft.jpg',
+            title: 'Minecraft Server',
             messege: 'Minecraftサーバのマップ情報をリアルタイムで確認できます.'
           },
           {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+            src: 'next_cloud.jpg',
             title: 'Entertainment Cloud',
             messege: 'アカウント登録することで10Gbのクラウドストレージを使用することができます.'
           },
           {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+            src: 'game.jpg',
             title: 'Game',
             messege: 'WebGLで動く簡単なゲームを遊ぶことができます.'
           },
           {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+            src: 'speedtest.jpg',
             title: 'SpeedTest',
             messege: 'sinohiro serverとの接続テストを行うことができます.'
           },
