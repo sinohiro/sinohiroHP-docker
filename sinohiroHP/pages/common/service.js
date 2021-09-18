@@ -7,7 +7,7 @@ export default {
         img: null,
         bgimg: 'speedtest.jpg',
         linkname: null,
-        url: 'speedtest/sinohiro_server_Speadtest.html'
+        url: '/speedtest/sinohiro_server_Speadtest.html'
       },
       {
         color: '#1F7087',
@@ -16,7 +16,7 @@ export default {
         img: 'nextcloud_logo.png',
         bgimg: null,
         linkname: null,
-        url: 'share0_320GB/nextcloud'
+        url: '/nextcloud'
       },
     ]
   }
