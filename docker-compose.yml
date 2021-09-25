@@ -24,63 +24,63 @@ services:
     image: php:7-fpm
     container_name: php7.2
     volumes: 
-      - ./sinohiroHP/dist:/var/www/html
+      #- ./sinohiroHP/dist:/var/www/html
       - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./php/php.ini:/usr/local/etc/php/php.ini
-     # - nextcloud:/var/www/html/nextcloud:ro
+      #- nextcloud:/var/www/html
     restart: always
   
   web:
-    image: nginx:latest
     container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
       - ./sinohiroHP/dist:/var/www/html
       - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       #- nextcloud:/var/www/html
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - php
-    
+    #links:
+    #  - nextcloud:nextcloud
     restart: always
-  
-#  db:
-#    container_name: mariadb
-#    image: mariadb
-#    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
-#    restart: always
-#    volumes:
-#      - db:/var/lib/mysql
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=pass6854
-#    env_file:
-#      - ./mariadb/db.env
-  
-#  nextcloud:
-#    container_name: nextcloud
-#    image: nextcloud:fpm-alpine
-#    restart: always
-#    volumes:
-#      - nextcloud:/var/www/html
-#    environment:
-#      - MYSQL_HOST=db
-#    env_file:
-#      - ./mariadb/db.env
-#    depends_on:
-#      - db
 
-#volumes:
-#  nextcloud: 
-#    driver_opts:
-#      type: none
-#      device: /home/sinohiro/docker/sinohiroHP-docker/nextcloud
-#      o: bind
-#  db: 
-#    driver_opts:
-#      type: none
-#      device: /home/sinohiro/docker/sinohiroHP-docker/mariadb
-#      o: bind
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud
+    volumes:
+      - nextcloud:/var/www/html
+    links:
+      - db
+    environment:
+      - MYSQL_HOST=db
+    env_file:
+      - ./mariadb/db.env
+    restart: always
+
+  
+  db:
+    container_name: mariadb
+    image: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass6854
+    env_file:
+      - ./mariadb/db.env
+    restart: always
+
+volumes:
+  nextcloud: 
+    driver_opts:
+      type: none
+      device: /home/sinohiro/docker/sinohiroHP-docker/nextcloud
+      o: bind
+  db: 
+    driver_opts:
+      type: none
+      device: /home/sinohiro/docker/sinohiroHP-docker/mariadb
+      o: bind
