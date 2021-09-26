@@ -24,7 +24,7 @@ services:
     image: php:7-fpm
     container_name: php7.2
     volumes: 
-      #- ./sinohiroHP/dist:/var/www/html
+      - ./sinohiroHP/dist:/var/www/html
       - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./php/php.ini:/usr/local/etc/php/php.ini
