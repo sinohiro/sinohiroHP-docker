@@ -1,5 +1,5 @@
 export default {
-    infomationItems: [
+    informationItems: [
       {
         color: '#1F7087',
         name: '2021年 U-16プログラミングコンテスト釧路大会 開催決定',

@@ -2,23 +2,23 @@
 version: '3'
 
 services:
-  # nuxt:
-  #   container_name: sinohiroHP
-  #   build: ./sinohiroHP
-  # 
-  #   # イメージ名
-  #   image: nuxt_app_image
-  # 
-  #   # ホストOSとコンテナ内でソースコードを共有
-  #   volumes:
-  #    - ./sinohiroHP:/app
-  #   tty: true
-  # 
-  #   # コンテナ内部の3000を外部から3000でアクセス
-  #   ports:
-  #    - "3000:3000"
-  #   
-  #   restart: always
+  #nuxt:
+  #  container_name: sinohiroHP
+  #  build: ./sinohiroHP
+  #
+  #  # イメージ名
+  #  image: nuxt_app_image
+  #
+  #  # ホストOSとコンテナ内でソースコードを共有
+  #  volumes:
+  #   - ./sinohiroHP:/app
+  #  tty: true
+  #
+  #  # コンテナ内部の3000を外部から3000でアクセス
+  #  ports:
+  #   - "3000:3000"
+  #  
+  #  restart: always
 
   php:
     image: php:7-fpm
@@ -35,12 +35,14 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
+
       - "443:443"
     volumes:
       - ./sinohiroHP/dist:/var/www/html
       - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/server.conf
       - ./nginx/letsencrypt:/etc/letsencrypt
     restart: always
 
@@ -54,17 +56,21 @@ services:
   nextcloud:
     container_name: nextcloud
     image: nextcloud
+    build:
+      context: ./nginx/nextcloud
     volumes:
       - nextcloud:/var/www/html
+      - ./php/max-execution-time.ini:/usr/local/etc/php/conf.d/max-execution-time.ini
     links:
       - db
     environment:
       - MYSQL_HOST=db
       - OVERWRITEWEBROOT=/nextcloud
+      - PHP_MEMORY_LIMIT=2048M
+      - PHP_UPLOAD_LIMIT=51200M
     env_file:
       - ./mariadb/db.env
     restart: always
-
   
   db:
     container_name: mariadb
@@ -82,10 +88,10 @@ volumes:
   nextcloud: 
     driver_opts:
       type: none
-      device: /home/sinohiro/docker/sinohiroHP-docker/nextcloud
+      device: /mnt/web/sinohiroHP-docker/nextcloud
       o: bind
   db: 
     driver_opts:
       type: none
-      device: /home/sinohiro/docker/sinohiroHP-docker/mariadb
+      device: /mnt/web/sinohiroHP-docker/mariadb
       o: bind

@@ -68,6 +68,19 @@ export default {
 }
 ```
 
+### Nextcloud
+add settings
+nextcloud/config/config.php
+```php
+'overwriteprotocol' => 'HTTPS',
+'default_phone_region' => 'JP',
+'trusted_domains' =>
+array (
+    0 => 'nextcloud',
+    1 => '192.168.1.2',
+    2 => 'sinohiro.dip.jp',
+),
+```
 ### npm run した際にseverity vulnerabilitiesと出た場合.
 ここを見て対処してください
 https://qiita.com/riversun/items/7f1679509f38b1ae8adb
