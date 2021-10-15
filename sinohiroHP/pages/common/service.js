@@ -3,7 +3,7 @@ export default {
       {
         color: '#1F7087',
         name: 'Speed Test',
-        contents: 'sinohiro serverで稼働中のマインクラフトサーバ内のマップ情報を確認することができます.',
+        contents: 'sinohiro serverとの接続テストを行うことができます.',
         img: null,
         bgimg: 'speedtest.jpg',
         linkname: null,

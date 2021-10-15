@@ -4,7 +4,7 @@
     absolute
   >
     <div class="footer">
-      Copyright test 2020. All right reserved
+      Copyright 2021. All right reserved
     </div>
   </v-footer>
 </template>

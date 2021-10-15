@@ -5,8 +5,8 @@ export default {
         url: '/'
       },
       {
-        name: 'Infomation',
-        url: '/infomation'
+        name: 'Information',
+        url: '/information'
       },
       {
         name: 'Game',

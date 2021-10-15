@@ -12,7 +12,7 @@
             <v-row class="home-contents">
               <v-col>
                 <div class="text-center">
-                  <h3>Game</h3>
+                  <h3>GAME</h3>
                 </div>
               </v-col>
             </v-row>

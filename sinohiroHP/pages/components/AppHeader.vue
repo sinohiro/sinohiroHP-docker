@@ -5,7 +5,7 @@
         dark
       >
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-        <v-toolbar-title>sinohiro server</v-toolbar-title>
+        <v-toolbar-title>SINOHIRO SERVER</v-toolbar-title>
 
         <v-tabs>
           <v-tab

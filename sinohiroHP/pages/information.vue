@@ -12,7 +12,7 @@
             <v-row class="home-contents">
               <v-col>
                 <div class="text-center">
-                  <h3>Infomation</h3>
+                  <h3>INFORMATION</h3>
                 </div>
               </v-col>
             </v-row>
@@ -22,43 +22,43 @@
         <v-container> 
           <v-row dense>
             <v-col
-              v-for="(infomationItem, i) in infomationItems"
+              v-for="(informationItem, i) in informationItems"
               :key="i"
               cols="12"
             >
               <v-card
-                :color="infomationItem.color"
+                :color="informationItem.color"
                 dark
               >
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <div>
                     <v-card-title
                       class="text-h5"
-                      v-text="infomationItem.name"
+                      v-text="informationItem.name"
                     ></v-card-title>
 
-                    <v-card-subtitle v-text="infomationItem.date"></v-card-subtitle>
+                    <v-card-subtitle v-text="informationItem.date"></v-card-subtitle>
 
-                    <v-card-text v-text="infomationItem.contents"></v-card-text>
+                    <v-card-text v-text="informationItem.contents"></v-card-text>
 
-                    <v-card-actions v-if="infomationItem.linkname !== null">
+                    <v-card-actions v-if="informationItem.linkname !== null">
                       <v-btn
                         class="ml-2 mt-1"
                         outlined
                         rounded
                         x-large
-                        v-text="infomationItem.linkname"
-                        :href="infomationItem.url"
+                        v-text="informationItem.linkname"
+                        :href="informationItem.url"
                         target="_blank"
                       ></v-btn>
                     </v-card-actions>
                   </div>
                   <v-img 
-                    v-if="infomationItem.img !== null"
+                    v-if="informationItem.img !== null"
                     class="ma-3"
                     max-height="200"
                     max-width="200"
-                    :src="require('@/assets/img/' + infomationItem.img)"
+                    :src="require('@/assets/img/' + informationItem.img)"
                   ></v-img>
                 </div>
               </v-card>
@@ -74,10 +74,10 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
-import imfomation from './common/imfomation.js'
+import imformation from './common/imformation.js'
  
 export default {
-  name: 'infomation',
+  name: 'information',
   components: {
     AppHeader,
     AppFooter
@@ -85,7 +85,7 @@ export default {
   data () {
     return {
       drawer: false,
-      infomationItems: imfomation.infomationItems,
+      informationItems: imformation.informationItems,
     }
   }
 }
