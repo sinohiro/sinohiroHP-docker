@@ -2,23 +2,23 @@
 version: '3'
 
 services:
-  #nuxt:
-  #  container_name: sinohiroHP
-  #  build: ./sinohiroHP
-  #
-  #  # イメージ名
-  #  image: nuxt_app_image
-  #
-  #  # ホストOSとコンテナ内でソースコードを共有
-  #  volumes:
-  #   - ./sinohiroHP:/app
-  #  tty: true
-  #
-  #  # コンテナ内部の3000を外部から3000でアクセス
-  #  ports:
-  #   - "3000:3000"
-  #  
-  #  restart: always
+  nuxt:
+    container_name: sinohiroHP
+    build: ./sinohiroHP
+  
+    # イメージ名
+    image: nuxt_app_image
+  
+    # ホストOSとコンテナ内でソースコードを共有
+    volumes:
+     - ./sinohiroHP:/app
+    tty: true
+  
+    # コンテナ内部の3000を外部から3000でアクセス
+    ports:
+     - "3000:3000"
+    
+    restart: always
 
   php:
     image: php:7-fpm
@@ -35,11 +35,10 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-
       - "443:443"
     volumes:
       - ./sinohiroHP/dist:/var/www/html
-      - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
+      - ./nginx/Build_WebGL2:/var/www/html/Build_WebGL
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/nginx.conf:/etc/nginx/conf.d/server.conf
@@ -68,6 +67,8 @@ services:
       - OVERWRITEWEBROOT=/nextcloud
       - PHP_MEMORY_LIMIT=2048M
       - PHP_UPLOAD_LIMIT=51200M
+      - APACHE_DISABLE_REWRITE_IP=1
+      - TRUSTED_PROXIES=127.0.0.1
     env_file:
       - ./mariadb/db.env
     restart: always
@@ -83,6 +84,20 @@ services:
     env_file:
       - ./mariadb/db.env
     restart: always
+
+  #dns:
+  #  build: .
+  #  ports:
+  #    - "53:53/udp"
+  #    - "53:53/tcp"
+  #  restart: always
+  #  dns:
+  #    - 8.8.8.8
+  #    - 8.8.4.4
+  #  extra_hosts:
+  #    - "sinohiro.dip.jp:192.168.1.2"
+  #  cap_add:
+  #    - NET_ADMIN
 
 volumes:
   nextcloud: 
