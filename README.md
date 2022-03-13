@@ -68,6 +68,20 @@ MYSQL_PASSWORD=hogehoge
 MYSQL_DATABASE=nextcloud
 MYSQL_USER=nextcloud
 ```
+[wp.env]
+```env
+# MySQL
+MYSQL_ROOT_PASSWORD=hogohogo
+MYSQL_DATABASE=wordpress
+MYSQL_USER=sinohiro
+MYSQL_PASSWORD=hogohogo
+
+# Wordpress
+WORDPRESS_DB_HOST= wpdb
+WORDPRESS_DB_USER= sinohiro
+WORDPRESS_DB_PASSWORD= hogohogo
+WORDPRESS_DB_NAME= wordpress
+```
  
 ### server_ip_addressの設定は[nuxt.config.js]の中に以下のフォーマットで入力してください
 
