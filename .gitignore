@@ -1,10 +1,10 @@
-nextcloud/
+nextcloud/*
 
-wordpress/
+wordpress/*
 
-mariadb/
+mariadb/*
 
-mariadb-wp/
+mariadb-wp/*
 
 nginx/letsencrypt/
 
