@@ -1,5 +1,7 @@
-nextcloud/*
+nextcloud/
 
-mariadb/*
+mariadb/
 
-nginx/letsencrypt/*
+nginx/letsencrypt/
+
+db.env

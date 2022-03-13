@@ -56,6 +56,18 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 ## Attention
+
+### dbのenvファイルをmariadbディレクトリ内に追加してください
+下記に例を示します[mariadb/db.env]
+
+ユーザー名とパスワードは変更してください
+
+データベース名はnextcloudの初期設定時に必要になります.
+```env
+MYSQL_PASSWORD=hogehoge
+MYSQL_DATABASE=nextcloud
+MYSQL_USER=nextcloud
+```
  
 ### server_ip_addressの設定は[nuxt.config.js]の中に以下のフォーマットで入力してください
 
