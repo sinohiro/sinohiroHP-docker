@@ -57,8 +57,8 @@ $ docker-compose up -d
 ```
 ## Attention
 
-### dbのenvファイルをmariadbディレクトリ内に追加してください
-下記に例を示します[mariadb/db.env]
+### dbのenvファイルをdocker-composeと同じディレクトリに追加してください
+下記に例を示します[nc.env]
 
 ユーザー名とパスワードは変更してください
 
@@ -95,7 +95,10 @@ array (
 ```
 ### npm run した際にseverity vulnerabilitiesと出た場合.
 ここを見て対処してください
+
 https://qiita.com/riversun/items/7f1679509f38b1ae8adb
+
+https://aventures.io/posts/85
 
 多くの場合は下記のコマンドでnpmのpackage.jsonにかかれているもののアップデートを行うことで解消されます
 ```bash

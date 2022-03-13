@@ -18,5 +18,14 @@ export default {
         linkname: null,
         url: '/nextcloud'
       },
+      //{
+      //  color: '#98fb98',
+      //  name: 'GeekCast',
+      //  contents: 'sinohiro serverで稼働しているブログサイト',
+      //  img: null,
+      //  bgimg: null,
+      //  linkname: null,
+      //  url: '/wordpress'
+      //},
     ]
   }

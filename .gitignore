@@ -1,7 +1,13 @@
 nextcloud/
 
+wordpress/
+
 mariadb/
+
+mariadb-wp/
 
 nginx/letsencrypt/
 
 db.env
+
+*.env

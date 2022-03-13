@@ -43,6 +43,7 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/nginx.conf:/etc/nginx/conf.d/server.conf
       - ./nginx/letsencrypt:/etc/letsencrypt
+      - ./wordpress:/var/www/html/wordpress
     restart: always
 
   certbot:
@@ -70,7 +71,7 @@ services:
       - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=127.0.0.1
     env_file:
-      - ./mariadb/db.env
+      - nc.env
     restart: always
   
   db:
@@ -80,22 +81,50 @@ services:
     volumes:
       - db:/var/lib/mysql
     env_file:
-      - ./mariadb/db.env
+      - nc.env
     restart: always
 
-  #dns:
-  #  build: .
-  #  ports:
-  #    - "53:53/udp"
-  #    - "53:53/tcp"
-  #  restart: always
-  #  dns:
-  #    - 8.8.8.8
-  #    - 8.8.4.4
-  #  extra_hosts:
-  #    - "sinohiro.dip.jp:192.168.1.2"
-  #  cap_add:
-  #    - NET_ADMIN
+  wordpress:
+    container_name: wordpress
+    image: wordpress:5.6-php7.4-fpm
+    depends_on:
+      - wpdb
+    volumes:
+      - wordpress:/var/www/html
+    restart: always
+    env_file:
+      - wp.env
+
+  wpdb:
+    container_name: wpdb
+    image: mariadb
+    restart: always
+    volumes:
+      - wpdb:/var/lib/mysql
+    env_file:
+      - wp.env
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - 3307:3307
+
+  dns:
+    image: 4km3/dnsmasq
+    container_name: dnsmasq
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    restart: always
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 2001:4860:4860::8888
+      - 2001:4860:4860::8844
+    extra_hosts:
+      - "sinohiro.dip.jp:192.168.1.2"
+      - "sinohiro.dip.jp:240f:46:bfc4:1::2"
+    cap_add:
+      - NET_ADMIN
 
 volumes:
   nextcloud: 
@@ -107,4 +136,14 @@ volumes:
     driver_opts:
       type: none
       device: /mnt/web/sinohiroHP-docker/mariadb
+      o: bind
+  wordpress: 
+    driver_opts:
+      type: none
+      device: /mnt/web/sinohiroHP-docker/wordpress
+      o: bind
+  wpdb: 
+    driver_opts:
+      type: none
+      device: /mnt/web/sinohiroHP-docker/mariadb-wp
       o: bind
