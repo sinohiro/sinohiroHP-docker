@@ -38,8 +38,10 @@
                     ></v-card-title>
 
                     <v-card-subtitle v-text="informationItem.date"></v-card-subtitle>
-
-                    <v-card-text v-text="informationItem.contents"></v-card-text>
+                    
+                    <div style="white-space: pre-wrap;">
+                      <v-card-text v-text="informationItem.contents"></v-card-text>
+                    </div>
 
                     <v-card-actions v-if="informationItem.linkname !== null">
                       <v-btn

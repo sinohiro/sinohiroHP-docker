@@ -78,9 +78,12 @@ services:
     restart: always
     networks:
       - docker-network
+    environment:
+      - MYSQL_DATABASE=${ECLOUD_DATABASE}
+      - MYSQL_USER=${ECLOUD_DB_USER}
+      - MYSQL_PASSWORD=${ECLOUD_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ECLOUD_DB_ROOT_PASSWORD}
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
-    env_file:
-      - nc.env
     volumes:
       - db:/var/lib/mysql
 
@@ -93,9 +96,9 @@ services:
     networks:
       - docker-network
     environment:
-      - WORDPRESS_DB_HOST=geekcast-db:3306
-      - WORDPRESS_DB_USER=sinohiro
-      - WORDPRESS_DB_PASSWORD=Pass.6854
+      - WORDPRESS_DB_HOST=geekcast-db
+      - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
       - VIRTUAL_HOST=blog.sinohiro.f5.si
       - LETSENCRYPT_HOST=blog.sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
@@ -111,10 +114,10 @@ services:
       - geekcast-db:/var/lib/mysql
     environment:
       - TZ=Asia/Tokyo
-      - MYSQL_ROOT_PASSWORD=Pass.6854
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=sinohiro
-      - MYSQL_PASSWORD=Pass.6854
+      - MYSQL_DATABASE=${GEEKCAST_DATABASE}
+      - MYSQL_USER=${GEEKCAST_DB_USER}
+      - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
     networks:
       - docker-network
 
