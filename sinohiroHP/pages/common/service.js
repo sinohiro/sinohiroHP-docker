@@ -13,19 +13,19 @@ export default {
         color: '#1F7087',
         name: 'Entertainment Cloud',
         contents: 'sinohiro serverで稼働しているクラウドストレージ.\nゲスト用アカウントで誰でも試すことができます\nid: gest\npass: hogehoge',
-        img: 'nextcloud_logo.png',
+        img: 'sinoi9.png',
         bgimg: null,
         linkname: null,
-        url: '/nextcloud'
+        url: 'https://ecloud.sinohiro.f5.si/'
       },
-      //{
-      //  color: '#98fb98',
-      //  name: 'GeekCast',
-      //  contents: 'sinohiro serverで稼働しているブログサイト',
-      //  img: null,
-      //  bgimg: null,
-      //  linkname: null,
-      //  url: '/wordpress'
-      //},
+      {
+        color: '#006400',
+        name: 'GeekCast',
+        contents: 'sinohiro serverで稼働しているブログサイト\n不定期で好きなことをつぶやいてます',
+        img: null,
+        bgimg: null,
+        linkname: null,
+        url: 'https://blog.sinohiro.f5.si/'
+      },
     ]
   }

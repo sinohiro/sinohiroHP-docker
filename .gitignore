@@ -2,9 +2,11 @@ nextcloud/*
 
 wordpress/*
 
-mariadb/*
+geekcast/*
 
-mariadb-wp/*
+geekcast-db/*
+
+mariadb/*
 
 nginx/letsencrypt/
 
