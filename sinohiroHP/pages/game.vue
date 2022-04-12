@@ -74,9 +74,9 @@
                           outlined
                           rounded
                           x-large
-                          href="1.16.4_sinohiro_server"
+                          href="https://kcmap.sinohiro.f5.si/"
                           target="_blank"
-                        >1.16.4 fucity server Web Map</v-btn>
+                        >1.12.2 New Kushiro City Web Map</v-btn>
                       </v-card-actions>
                     </div>
                     <v-img 

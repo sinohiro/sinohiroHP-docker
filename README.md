@@ -20,7 +20,7 @@ $ docker images
 $ docker ps
 
 # コンテナ接続
-$ docker exec -it sinohiroHP sh
+$ docker exec -it build-sinohiroHP sh
 
 # コンテナ停止
 $ docker-compose down
@@ -113,6 +113,10 @@ array (
 https://qiita.com/riversun/items/7f1679509f38b1ae8adb
 
 https://aventures.io/posts/85
+
+```bash
+export NODE_OPTIONS=--openssl-legacy-provider
+```
 
 多くの場合は下記のコマンドでnpmのpackage.jsonにかかれているもののアップデートを行うことで解消されます
 ```bash
