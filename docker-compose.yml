@@ -126,6 +126,8 @@ services:
       context: ./nginx/proxy
     container_name: nginx-proxy
     image: jwilder/nginx-proxy
+    environment:
+      - ENABLE_IPV6=true
     restart: always
     privileged: true
     ports:
