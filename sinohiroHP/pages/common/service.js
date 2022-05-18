@@ -12,7 +12,7 @@ export default {
       {
         color: '#1F7087',
         name: 'Entertainment Cloud',
-        contents: 'sinohiro serverで稼働しているクラウドストレージ.\nゲスト用アカウントで誰でも試すことができます\nid: gest\npass: hogehoge',
+        contents: 'sinohiro serverで稼働しているクラウドストレージ.\nゲスト用アカウントで誰でも試すことができます\nid: gest\npass: hogehogeec',
         img: 'sinoi9.png',
         bgimg: null,
         linkname: null,

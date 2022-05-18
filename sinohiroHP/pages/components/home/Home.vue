@@ -14,14 +14,15 @@
             <p>sinohiro</p>
             
             <h2>School</h2>
-						<p>釧路工業高等専門学校<br>
+						<p>釧路工業高等専門学校 2022年3月卒業<br>
 						National Institute of Technology, Kushiro College</p>
+            <p>北見工業大学</p>
             <v-btn
               x-large
               depressed
               color="primary"
               dark
-              href="https://www.kushiro-ct.ac.jp/"
+              href="https://www.kitami-it.ac.jp/"
               target="_blank"
             >
               School HP
