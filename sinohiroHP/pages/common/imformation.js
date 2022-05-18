@@ -1,6 +1,24 @@
 export default {
     informationItems: [
       {
+        color: '#d2691e',
+        name: 'sinohiro-serverドメイン変更のお知らせ',
+        date: '2022.03.27',
+        contents: '使用しているddnsサーバが不安定なためnow ddnsへの変更に伴いドメインが変更になります. \n前ドメイン: sinohiro.dip.jp\n新ドメイン: sinohiro.f5.si',
+        img: 'sinohirosan.png',
+        linkname: null,
+        url: null
+      },
+      {
+        color: '#ff4500',
+        name: 'sinohiro-server引っ越しのお知らせ',
+        date: '2022.03.27',
+        contents: 'この度, 大学編入により引っ越しすることになりました\nそれに伴いサーバも一緒に引っ越しするため下記の期間サーバを停止します.\nサーバ停止期間: 2022年03月31日から2022年04月03日',
+        img: 'sinohirosan.png',
+        linkname: null,
+        url: null
+      },
+      {
         color: '#1F7087',
         name: '2021年 U-16プログラミングコンテスト釧路大会 開催決定',
         date: '2021.09.11',

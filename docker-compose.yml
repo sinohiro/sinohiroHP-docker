@@ -1,9 +1,7 @@
-# Dockerのバージョン
 version: '3'
-
 services:
   nuxt:
-    container_name: sinohiroHP
+    container_name: build-sinohiroHP
     build: ./sinohiroHP
   
     # イメージ名
@@ -20,113 +18,155 @@ services:
     
     restart: always
 
-  php:
-    image: php:7-fpm
-    container_name: php7.2
-    volumes: 
-      - ./sinohiroHP/dist:/var/www/html
-      - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
-      - ./nginx/speedtest:/var/www/html/speedtest
-      - ./php/php.ini:/usr/local/etc/php/php.ini
-    restart: always
-  
-  web:
-    container_name: nginx
+  sinohiro-HP:
+    container_name: sinohiro-HP
     image: nginx:latest
+    restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - VIRTUAL_HOST=sinohiro.f5.si, 192.168.1.*, sinohiro.dip.jp
+      - LETSENCRYPT_HOST=sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
       - ./sinohiroHP/dist:/var/www/html
       - ./nginx/Build_WebGL2:/var/www/html/Build_WebGL
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/nginx.conf:/etc/nginx/conf.d/server.conf
-      - ./nginx/letsencrypt:/etc/letsencrypt
+  php:
+    container_name: php7.2
+    image: php:7-fpm
     restart: always
-
-  certbot:
-    image: certbot/certbot:v1.7.0
-    volumes:
-      - ./nginx/letsencrypt:/etc/letsencrypt
+    networks:
+      - docker-network
+    volumes: 
       - ./sinohiroHP/dist:/var/www/html
-    command: ["--version"]
+      - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
+      - ./nginx/speedtest:/var/www/html/speedtest
+      - ./php/php.ini:/usr/local/etc/php/php.ini
 
   nextcloud:
-    container_name: nextcloud
-    image: nextcloud
     build:
       context: ./nginx/nextcloud
+    container_name: nextcloud
+    image: nextcloud
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - MYSQL_HOST=db
+      - PHP_MEMORY_LIMIT=2048M
+      - PHP_UPLOAD_LIMIT=51200M
+      - APACHE_DISABLE_REWRITE_IP=1
+      - TRUSTED_PROXIES=127.0.0.1
+      - VIRTUAL_HOST=ecloud.sinohiro.f5.si
+      - LETSENCRYPT_HOST=ecloud.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
       - nextcloud:/var/www/html
       - ./php/max-execution-time.ini:/usr/local/etc/php/conf.d/max-execution-time.ini
     links:
       - db
-    environment:
-      - MYSQL_HOST=db
-      - OVERWRITEWEBROOT=/nextcloud
-      - PHP_MEMORY_LIMIT=2048M
-      - PHP_UPLOAD_LIMIT=51200M
-      - APACHE_DISABLE_REWRITE_IP=1
-      - TRUSTED_PROXIES=127.0.0.1
-    env_file:
-      - nc.env
-    restart: always
-  
   db:
-    container_name: mariadb
+    container_name: db
     image: mariadb
+    restart: always
+    networks:
+      - docker-network
+    environment:
+      - MYSQL_DATABASE=${ECLOUD_DATABASE}
+      - MYSQL_USER=${ECLOUD_DB_USER}
+      - MYSQL_PASSWORD=${ECLOUD_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ECLOUD_DB_ROOT_PASSWORD}
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
     volumes:
       - db:/var/lib/mysql
-    env_file:
-      - nc.env
-    restart: always
 
-  wordpress:
-    container_name: wordpress
-    image: wordpress:5.6-php7.4-fpm
-    depends_on:
-      - wpdb
+  geekcast:
+    container_name: geekcast
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - WORDPRESS_DB_HOST=geekcast-db
+      - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
+      - VIRTUAL_HOST=blog.sinohiro.f5.si
+      - LETSENCRYPT_HOST=blog.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
-      - wordpress:/var/www/html
-    restart: always
-    env_file:
-      - wp.env
-
-  wpdb:
-    container_name: wpdb
+      - geekcast:/var/www/html
+    links:
+      - geekcast-db
+  geekcast-db:
+    container_name: geekcast-db
     image: mariadb
     restart: always
     volumes:
-      - wpdb:/var/lib/mysql
-    env_file:
-      - wp.env
+      - geekcast-db:/var/lib/mysql
     environment:
-      TZ: Asia/Tokyo
-    ports:
-      - 3307:3307
+      - TZ=Asia/Tokyo
+      - MYSQL_DATABASE=${GEEKCAST_DATABASE}
+      - MYSQL_USER=${GEEKCAST_DB_USER}
+      - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
+    networks:
+      - docker-network
 
-  dns:
-    image: 4km3/dnsmasq
-    container_name: dnsmasq
-    ports:
-      - "53:53/udp"
-      - "53:53/tcp"
+  nginx-proxy:
+    build:
+      context: ./nginx/proxy
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy
+    environment:
+      - ENABLE_IPV6=true
     restart: always
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-      - 2001:4860:4860::8888
-      - 2001:4860:4860::8844
-    extra_hosts:
-      - "sinohiro.dip.jp:192.168.1.2"
-      - "sinohiro.dip.jp:240f:46:bfc4:1::2"
-    cap_add:
-      - NET_ADMIN
+    privileged: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - docker-network
+
+  letsencrypt:
+    image: nginxproxy/acme-companion
+    container_name: letsencrypt
+    environment:
+      - DEFAULT_EMAIL=sinohiro966@gmail.com
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - acme:/etc/acme.sh
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
+    networks:
+      - docker-network
+networks:
+  docker-network:
+    external:
+      name: sinohiro-server
 
 volumes:
-  nextcloud: 
+  certs:
+  vhost:
+  html:
+  acme:
+  nextcloud:
     driver_opts:
       type: none
       device: /mnt/web/sinohiroHP-docker/nextcloud
@@ -136,13 +176,13 @@ volumes:
       type: none
       device: /mnt/web/sinohiroHP-docker/mariadb
       o: bind
-  wordpress: 
+  geekcast: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/wordpress
+      device: /mnt/web/sinohiroHP-docker/geekcast
       o: bind
-  wpdb: 
+  geekcast-db: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/mariadb-wp
+      device: /mnt/web/sinohiroHP-docker/geekcast-db
       o: bind
