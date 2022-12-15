@@ -121,6 +121,41 @@ services:
     networks:
       - docker-network
 
+  kitamatch:
+    container_name: kitamatch
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - WORDPRESS_DB_HOST=kitamatch-db
+      - WORDPRESS_DB_USER=${KITAMATCH_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${KITAMATCH_DB_PASSWORD}
+      - VIRTUAL_HOST=kitamatch.sinohiro.f5.si
+      - LETSENCRYPT_HOST=kitamatch.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+    volumes:
+      - kitamatch:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+    links:
+      - kitamatch-db
+  kitamatch-db:
+    container_name: kitamatch-db
+    image: mariadb
+    restart: always
+    volumes:
+      - kitamatch-db:/var/lib/mysql
+    environment:
+      - TZ=Asia/Tokyo
+      - MYSQL_DATABASE=${KITAMATCH_DATABASE}
+      - MYSQL_USER=${KITAMATCH_DB_USER}
+      - MYSQL_PASSWORD=${KITAMATCH_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${KITAMATCH_DB_ROOT_PASSWORD}
+    networks:
+      - docker-network
+
   nginx-proxy:
     build:
       context: ./nginx/proxy
@@ -185,4 +220,14 @@ volumes:
     driver_opts:
       type: none
       device: /mnt/web/sinohiroHP-docker/geekcast-db
+      o: bind
+  kitamatch: 
+    driver_opts:
+      type: none
+      device: /mnt/web/sinohiroHP-docker/kitamatch
+      o: bind
+  kitamatch-db: 
+    driver_opts:
+      type: none
+      device: /mnt/web/sinohiroHP-docker/kitamatch-db
       o: bind
