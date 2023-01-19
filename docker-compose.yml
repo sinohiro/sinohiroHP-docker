@@ -156,6 +156,41 @@ services:
     networks:
       - docker-network
 
+  u16procon:
+    container_name: u16procon
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - WORDPRESS_DB_HOST=u16procon-db
+      - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
+      - VIRTUAL_HOST=u16procon.sinohiro.f5.si
+      - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+    volumes:
+      - u16procon:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+    links:
+      - u16procon-db
+  u16procon-db:
+    container_name: u16procon-db
+    image: mariadb
+    restart: always
+    volumes:
+      - u16procon-db:/var/lib/mysql
+    environment:
+      - TZ=Asia/Tokyo
+      - MYSQL_DATABASE=${U16PROCON_DATABASE}
+      - MYSQL_USER=${U16PROCON_DB_USER}
+      - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
+    networks:
+      - docker-network
+
   nginx-proxy:
     build:
       context: ./nginx/proxy
@@ -230,4 +265,14 @@ volumes:
     driver_opts:
       type: none
       device: /mnt/web/sinohiroHP-docker/kitamatch-db
+      o: bind
+  u16procon: 
+    driver_opts:
+      type: none
+      device: /mnt/web/sinohiroHP-docker/u16procon
+      o: bind
+  u16procon-db: 
+    driver_opts:
+      type: none
+      device: /mnt/web/sinohiroHP-docker/u16procon-db
       o: bind
