@@ -1,22 +1,22 @@
 version: '3'
 services:
-  nuxt:
-    container_name: build-sinohiroHP
-    build: ./sinohiroHP
-  
-    # イメージ名
-    image: nuxt_app_image
-  
-    # ホストOSとコンテナ内でソースコードを共有
-    volumes:
-     - ./sinohiroHP:/app
-    tty: true
-  
-    # コンテナ内部の3000を外部から3000でアクセス
-    ports:
-     - "3000:3000"
-    
-    restart: always
+  #nuxt:
+  #  container_name: build-sinohiroHP
+  #  build: ./sinohiroHP
+  #
+  #  # イメージ名
+  #  image: nuxt_app_image
+  #
+  #  # ホストOSとコンテナ内でソースコードを共有
+  #  volumes:
+  #   - ./sinohiroHP:/app
+  #  tty: true
+  #
+  #  # コンテナ内部の3000を外部から3000でアクセス
+  #  ports:
+  #   - "3000:3000"
+  #  
+  #  restart: always
 
   sinohiro-HP:
     container_name: sinohiro-HP
@@ -27,7 +27,7 @@ services:
     networks:
       - docker-network
     environment:
-      - VIRTUAL_HOST=sinohiro.f5.si, 192.168.1.*, sinohiro.dip.jp
+      - VIRTUAL_HOST=sinohiro.f5.si, 192.168.1.*, sinohiro.dip.jp, sinohiro.net
       - LETSENCRYPT_HOST=sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
@@ -87,109 +87,109 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  geekcast:
-    container_name: geekcast
-    image: wordpress:latest
-    restart: always
-    ports:
-      - "80"
-    networks:
-      - docker-network
-    environment:
-      - WORDPRESS_DB_HOST=geekcast-db
-      - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
-      - VIRTUAL_HOST=blog.sinohiro.f5.si
-      - LETSENCRYPT_HOST=blog.sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - geekcast:/var/www/html
-    links:
-      - geekcast-db
-  geekcast-db:
-    container_name: geekcast-db
-    image: mariadb
-    restart: always
-    volumes:
-      - geekcast-db:/var/lib/mysql
-    environment:
-      - TZ=Asia/Tokyo
-      - MYSQL_DATABASE=${GEEKCAST_DATABASE}
-      - MYSQL_USER=${GEEKCAST_DB_USER}
-      - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
-    networks:
-      - docker-network
+  #geekcast:
+  #  container_name: geekcast
+  #  image: wordpress:latest
+  #  restart: always
+  #  ports:
+  #    - "80"
+  #  networks:
+  #    - docker-network
+  #  environment:
+  #    - WORDPRESS_DB_HOST=geekcast-db
+  #    - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
+  #    - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
+  #    - VIRTUAL_HOST=blog.sinohiro.f5.si
+  #    - LETSENCRYPT_HOST=blog.sinohiro.f5.si
+  #    - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #  volumes:
+  #    - geekcast:/var/www/html
+  #  links:
+  #    - geekcast-db
+  #geekcast-db:
+  #  container_name: geekcast-db
+  #  image: mariadb
+  #  restart: always
+  #  volumes:
+  #    - geekcast-db:/var/lib/mysql
+  #  environment:
+  #    - TZ=Asia/Tokyo
+  #    - MYSQL_DATABASE=${GEEKCAST_DATABASE}
+  #    - MYSQL_USER=${GEEKCAST_DB_USER}
+  #    - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
+  #    - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
+  #  networks:
+  #    - docker-network
 
-  kitamatch:
-    container_name: kitamatch
-    image: wordpress:latest
-    restart: always
-    ports:
-      - "80"
-    networks:
-      - docker-network
-    environment:
-      - WORDPRESS_DB_HOST=kitamatch-db
-      - WORDPRESS_DB_USER=${KITAMATCH_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${KITAMATCH_DB_PASSWORD}
-      - VIRTUAL_HOST=kitamatch.sinohiro.f5.si
-      - LETSENCRYPT_HOST=kitamatch.sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - kitamatch:/var/www/html
-      - ./php/php.ini:/usr/local/etc/php/php.ini
-    links:
-      - kitamatch-db
-  kitamatch-db:
-    container_name: kitamatch-db
-    image: mariadb
-    restart: always
-    volumes:
-      - kitamatch-db:/var/lib/mysql
-    environment:
-      - TZ=Asia/Tokyo
-      - MYSQL_DATABASE=${KITAMATCH_DATABASE}
-      - MYSQL_USER=${KITAMATCH_DB_USER}
-      - MYSQL_PASSWORD=${KITAMATCH_DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${KITAMATCH_DB_ROOT_PASSWORD}
-    networks:
-      - docker-network
+  #kitamatch:
+  #  container_name: kitamatch
+  #  image: wordpress:latest
+  #  restart: always
+  #  ports:
+  #    - "80"
+  #  networks:
+  #    - docker-network
+  #  environment:
+  #    - WORDPRESS_DB_HOST=kitamatch-db
+  #    - WORDPRESS_DB_USER=${KITAMATCH_DB_USER}
+  #    - WORDPRESS_DB_PASSWORD=${KITAMATCH_DB_PASSWORD}
+  #    - VIRTUAL_HOST=kitamatch.sinohiro.f5.si
+  #    - LETSENCRYPT_HOST=kitamatch.sinohiro.f5.si
+  #    - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #  volumes:
+  #    - kitamatch:/var/www/html
+  #    - ./php/php.ini:/usr/local/etc/php/php.ini
+  #  links:
+  #    - kitamatch-db
+  #kitamatch-db:
+  #  container_name: kitamatch-db
+  #  image: mariadb
+  #  restart: always
+  #  volumes:
+  #    - kitamatch-db:/var/lib/mysql
+  #  environment:
+  #    - TZ=Asia/Tokyo
+  #    - MYSQL_DATABASE=${KITAMATCH_DATABASE}
+  #    - MYSQL_USER=${KITAMATCH_DB_USER}
+  #    - MYSQL_PASSWORD=${KITAMATCH_DB_PASSWORD}
+  #    - MYSQL_ROOT_PASSWORD=${KITAMATCH_DB_ROOT_PASSWORD}
+  #  networks:
+  #    - docker-network
 
-  u16procon:
-    container_name: u16procon
-    image: wordpress:latest
-    restart: always
-    ports:
-      - "80"
-    networks:
-      - docker-network
-    environment:
-      - WORDPRESS_DB_HOST=u16procon-db
-      - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
-      - VIRTUAL_HOST=u16procon.sinohiro.f5.si
-      - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - u16procon:/var/www/html
-      - ./php/php.ini:/usr/local/etc/php/php.ini
-    links:
-      - u16procon-db
-  u16procon-db:
-    container_name: u16procon-db
-    image: mariadb
-    restart: always
-    volumes:
-      - u16procon-db:/var/lib/mysql
-    environment:
-      - TZ=Asia/Tokyo
-      - MYSQL_DATABASE=${U16PROCON_DATABASE}
-      - MYSQL_USER=${U16PROCON_DB_USER}
-      - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
-    networks:
-      - docker-network
+  #u16procon:
+  #  container_name: u16procon
+  #  image: wordpress:latest
+  #  restart: always
+  #  ports:
+  #    - "80"
+  #  networks:
+  #    - docker-network
+  #  environment:
+  #    - WORDPRESS_DB_HOST=u16procon-db
+  #    - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
+  #    - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
+  #    - VIRTUAL_HOST=u16procon.sinohiro.f5.si
+  #    - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
+  #    - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #  volumes:
+  #    - u16procon:/var/www/html
+  #    - ./php/php.ini:/usr/local/etc/php/php.ini
+  #  links:
+  #    - u16procon-db
+  #u16procon-db:
+  #  container_name: u16procon-db
+  #  image: mariadb
+  #  restart: always
+  #  volumes:
+  #    - u16procon-db:/var/lib/mysql
+  #  environment:
+  #    - TZ=Asia/Tokyo
+  #    - MYSQL_DATABASE=${U16PROCON_DATABASE}
+  #    - MYSQL_USER=${U16PROCON_DB_USER}
+  #    - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
+  #    - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
+  #  networks:
+  #    - docker-network
 
   nginx-proxy:
     build:
