@@ -6,6 +6,14 @@ geekcast/*
 
 geekcast-db/*
 
+kitamatch/*
+
+kitamatch-db/*
+
+u16procon/*
+
+u16procon-db/*
+
 mariadb/*
 
 nginx/letsencrypt/
