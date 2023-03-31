@@ -239,40 +239,40 @@ volumes:
   nextcloud:
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/nextcloud
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/nextcloud
       o: bind
   db: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/mariadb
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/mariadb
       o: bind
   geekcast: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/geekcast
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast
       o: bind
   geekcast-db: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/geekcast-db
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast-db
       o: bind
   kitamatch: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/kitamatch
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/kitamatch
       o: bind
   kitamatch-db: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/kitamatch-db
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/kitamatch-db
       o: bind
   u16procon: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/u16procon
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/u16procon
       o: bind
   u16procon-db: 
     driver_opts:
       type: none
-      device: /mnt/web/sinohiroHP-docker/u16procon-db
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/u16procon-db
       o: bind
