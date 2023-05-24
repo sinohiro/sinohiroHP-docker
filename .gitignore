@@ -1,23 +1,18 @@
-nextcloud/*
+#ecloud
+ecloud/*
+ecloud-db/*
 
 wordpress/*
 
+#geekcast
 geekcast/*
-
 geekcast-db/*
 
-kitamatch/*
-
-kitamatch-db/*
-
+#u16procon
 u16procon/*
-
 u16procon-db/*
 
-mariadb/*
 
 nginx/letsencrypt/
-
 db.env
-
 *.env

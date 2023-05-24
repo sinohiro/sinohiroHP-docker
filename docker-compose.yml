@@ -48,10 +48,10 @@ services:
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./php/php.ini:/usr/local/etc/php/php.ini
 
-  nextcloud:
+  ecloud:
     build:
-      context: ./nginx/nextcloud
-    container_name: nextcloud
+      context: ./nginx/ecloud
+    container_name: ecloud
     image: nextcloud
     restart: always
     ports:
@@ -59,7 +59,7 @@ services:
     networks:
       - docker-network
     environment:
-      - MYSQL_HOST=db
+      - MYSQL_HOST=ecloud-db
       - PHP_MEMORY_LIMIT=2048M
       - PHP_UPLOAD_LIMIT=51200M
       - APACHE_DISABLE_REWRITE_IP=1
@@ -68,12 +68,12 @@ services:
       - LETSENCRYPT_HOST=ecloud.sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
-      - nextcloud:/var/www/html
+      - ecloud:/var/www/html
       - ./php/max-execution-time.ini:/usr/local/etc/php/conf.d/max-execution-time.ini
     links:
-      - db
-  db:
-    container_name: db
+      - ecloud-db
+  ecloud-db:
+    container_name: ecloud-db
     image: mariadb
     restart: always
     networks:
@@ -85,41 +85,41 @@ services:
       - MYSQL_ROOT_PASSWORD=${ECLOUD_DB_ROOT_PASSWORD}
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
     volumes:
-      - db:/var/lib/mysql
+      - ecloud-db:/var/lib/mysql
 
-  #geekcast:
-  #  container_name: geekcast
-  #  image: wordpress:latest
-  #  restart: always
-  #  ports:
-  #    - "80"
-  #  networks:
-  #    - docker-network
-  #  environment:
-  #    - WORDPRESS_DB_HOST=geekcast-db
-  #    - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
-  #    - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
-  #    - VIRTUAL_HOST=blog.sinohiro.f5.si
-  #    - LETSENCRYPT_HOST=blog.sinohiro.f5.si
-  #    - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-  #  volumes:
-  #    - geekcast:/var/www/html
-  #  links:
-  #    - geekcast-db
-  #geekcast-db:
-  #  container_name: geekcast-db
-  #  image: mariadb
-  #  restart: always
-  #  volumes:
-  #    - geekcast-db:/var/lib/mysql
-  #  environment:
-  #    - TZ=Asia/Tokyo
-  #    - MYSQL_DATABASE=${GEEKCAST_DATABASE}
-  #    - MYSQL_USER=${GEEKCAST_DB_USER}
-  #    - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
-  #    - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
-  #  networks:
-  #    - docker-network
+  geekcast:
+    container_name: geekcast
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - WORDPRESS_DB_HOST=geekcast-db
+      - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
+      - VIRTUAL_HOST=blog.sinohiro.f5.si
+      - LETSENCRYPT_HOST=blog.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+    volumes:
+      - geekcast:/var/www/html
+    links:
+      - geekcast-db
+  geekcast-db:
+    container_name: geekcast-db
+    image: mariadb
+    restart: always
+    volumes:
+      - geekcast-db:/var/lib/mysql
+    environment:
+      - TZ=Asia/Tokyo
+      - MYSQL_DATABASE=${GEEKCAST_DATABASE}
+      - MYSQL_USER=${GEEKCAST_DB_USER}
+      - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
+    networks:
+      - docker-network
 
   #kitamatch:
   #  container_name: kitamatch
@@ -156,40 +156,40 @@ services:
   #  networks:
   #    - docker-network
 
-  #u16procon:
-  #  container_name: u16procon
-  #  image: wordpress:latest
-  #  restart: always
-  #  ports:
-  #    - "80"
-  #  networks:
-  #    - docker-network
-  #  environment:
-  #    - WORDPRESS_DB_HOST=u16procon-db
-  #    - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
-  #    - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
-  #    - VIRTUAL_HOST=u16procon.sinohiro.f5.si
-  #    - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
-  #    - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-  #  volumes:
-  #    - u16procon:/var/www/html
-  #    - ./php/php.ini:/usr/local/etc/php/php.ini
-  #  links:
-  #    - u16procon-db
-  #u16procon-db:
-  #  container_name: u16procon-db
-  #  image: mariadb
-  #  restart: always
-  #  volumes:
-  #    - u16procon-db:/var/lib/mysql
-  #  environment:
-  #    - TZ=Asia/Tokyo
-  #    - MYSQL_DATABASE=${U16PROCON_DATABASE}
-  #    - MYSQL_USER=${U16PROCON_DB_USER}
-  #    - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
-  #    - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
-  #  networks:
-  #    - docker-network
+  u16procon:
+    container_name: u16procon
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - WORDPRESS_DB_HOST=u16procon-db
+      - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
+      - VIRTUAL_HOST=u16procon.sinohiro.f5.si
+      - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+    volumes:
+      - u16procon:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+    links:
+      - u16procon-db
+  u16procon-db:
+    container_name: u16procon-db
+    image: mariadb
+    restart: always
+    volumes:
+      - u16procon-db:/var/lib/mysql
+    environment:
+      - TZ=Asia/Tokyo
+      - MYSQL_DATABASE=${U16PROCON_DATABASE}
+      - MYSQL_USER=${U16PROCON_DB_USER}
+      - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
+    networks:
+      - docker-network
 
   nginx-proxy:
     build:
@@ -236,15 +236,15 @@ volumes:
   vhost:
   html:
   acme:
-  nextcloud:
+  ecloud:
     driver_opts:
       type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/nextcloud
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/ecloud
       o: bind
-  db: 
+  ecloud-db: 
     driver_opts:
       type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/mariadb
+      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/ecloud-db
       o: bind
   geekcast: 
     driver_opts:
@@ -255,16 +255,6 @@ volumes:
     driver_opts:
       type: none
       device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast-db
-      o: bind
-  kitamatch: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/kitamatch
-      o: bind
-  kitamatch-db: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/kitamatch-db
       o: bind
   u16procon: 
     driver_opts:
