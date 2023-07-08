@@ -1,0 +1,3 @@
+ add ecloud/config/config.php
+ 
+ 'default_phone_region' => 'JP',

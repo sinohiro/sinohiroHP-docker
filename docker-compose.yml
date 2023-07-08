@@ -64,6 +64,8 @@ services:
       - PHP_UPLOAD_LIMIT=51200M
       - APACHE_DISABLE_REWRITE_IP=1
       - TRUSTED_PROXIES=127.0.0.1
+      - OVERWRITEHOST=ecloud.sinohiro.f5.si
+      - OVERWRITEPROTOCOL=https
       - VIRTUAL_HOST=ecloud.sinohiro.f5.si
       - LETSENCRYPT_HOST=ecloud.sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
@@ -72,6 +74,8 @@ services:
       - ./php/max-execution-time.ini:/usr/local/etc/php/conf.d/max-execution-time.ini
     links:
       - ecloud-db
+      - redis
+
   ecloud-db:
     container_name: ecloud-db
     image: mariadb
@@ -83,9 +87,21 @@ services:
       - MYSQL_USER=${ECLOUD_DB_USER}
       - MYSQL_PASSWORD=${ECLOUD_DB_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${ECLOUD_DB_ROOT_PASSWORD}
+      - MYSQL_INITDB_SKIP_TZINFO=1
+      - MYSQL_QUERY_CACHE_SIZE=64M
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
+    tty: true
     volumes:
       - ecloud-db:/var/lib/mysql
+  
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - docker-network
 
   geekcast:
     container_name: geekcast
@@ -168,6 +184,7 @@ services:
       - WORDPRESS_DB_HOST=u16procon-db
       - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
       - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
+      - WORDPRESS_DEBUG=true
       - VIRTUAL_HOST=u16procon.sinohiro.f5.si
       - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
@@ -192,8 +209,8 @@ services:
       - docker-network
 
   nginx-proxy:
-    build:
-      context: ./nginx/proxy
+    #build:
+    #  context: ./nginx/proxy
     container_name: nginx-proxy
     image: jwilder/nginx-proxy
     environment:
@@ -208,6 +225,7 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/proxy/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
     networks:
       - docker-network
 
@@ -226,6 +244,7 @@ services:
     restart: always
     networks:
       - docker-network
+
 networks:
   docker-network:
     external:
