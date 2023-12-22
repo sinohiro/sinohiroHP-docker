@@ -208,6 +208,21 @@ services:
     networks:
       - docker-network
 
+  truenas-proxy:
+    container_name: truenas-proxy
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80"
+    networks:
+      - docker-network
+    environment:
+      - VIRTUAL_HOST=nas.sinohiro.f5.si
+      - LETSENCRYPT_HOST=nas.sinohiro.f5.si
+      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+    volumes:
+      - ./nginx/proxy/truenas_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
+
   nginx-proxy:
     #build:
     #  context: ./nginx/proxy
