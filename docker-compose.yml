@@ -1,22 +1,22 @@
-version: '3'
 services:
-  #nuxt:
-  #  container_name: build-sinohiroHP
-  #  build: ./sinohiroHP
-  #
-  #  # イメージ名
-  #  image: nuxt_app_image
-  #
-  #  # ホストOSとコンテナ内でソースコードを共有
-  #  volumes:
-  #   - ./sinohiroHP:/app
-  #  tty: true
-  #
-  #  # コンテナ内部の3000を外部から3000でアクセス
-  #  ports:
-  #   - "3000:3000"
-  #  
-  #  restart: always
+  nuxt:
+    container_name: nuxt
+    build: nginx/nuxt
+    volumes:
+      - ./sinohiroHPv4:/app:cached
+      - nuxt_node_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - port=3000
+      - CHOKIDAR_USEPOLLING=true
+#    command: sh -c "yarn && yarn dev"
+    networks:
+      docker-network:
+        ipv4_address: 172.19.0.19
 
   sinohiro-HP:
     container_name: sinohiro-HP
@@ -50,65 +50,65 @@ services:
       - ./nginx/speedtest:/var/www/html/speedtest
       - ./php/php.ini:/usr/local/etc/php/php.ini
 
-  ecloud:
-    build:
-      context: ./nginx/ecloud
-    container_name: ecloud
-    image: nextcloud
-    restart: always
-    ports:
-      - "80"
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.16
-    environment:
-      - MYSQL_HOST=ecloud-db
-      - PHP_MEMORY_LIMIT=4096M
-      - PHP_UPLOAD_LIMIT=51200M
-      - APACHE_DISABLE_REWRITE_IP=1
-      - APACHE_BODY_LIMIT=0
-      - TRUSTED_PROXIES=172.19.0.10
-      - OVERWRITEHOST=ecloud.sinohiro.f5.si
-      - OVERWRITEPROTOCOL=https
-      - VIRTUAL_HOST=ecloud.sinohiro.f5.si
-      - LETSENCRYPT_HOST=ecloud.sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - ecloud:/var/www/html
-      - ./php/max-execution-time.ini:/usr/local/etc/php/conf.d/max-execution-time.ini
-    links:
-      - ecloud-db
-      - redis
+  # ecloud:
+  #   build:
+  #     context: ./nginx/ecloud
+  #   container_name: ecloud
+  #   image: nextcloud
+  #   restart: always
+  #   ports:
+  #     - "80"
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.16
+  #   environment:
+  #     - MYSQL_HOST=ecloud-db
+  #     - PHP_MEMORY_LIMIT=4096M
+  #     - PHP_UPLOAD_LIMIT=51200M
+  #     - APACHE_DISABLE_REWRITE_IP=1
+  #     - APACHE_BODY_LIMIT=0
+  #     - TRUSTED_PROXIES=172.19.0.10
+  #     - OVERWRITEHOST=ecloud.sinohiro.f5.si
+  #     - OVERWRITEPROTOCOL=https
+  #     - VIRTUAL_HOST=ecloud.sinohiro.f5.si
+  #     - LETSENCRYPT_HOST=ecloud.sinohiro.f5.si
+  #     - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #   volumes:
+  #     - ecloud:/var/www/html
+  #     - ./php/max-execution-time.ini:/usr/local/etc/php/conf.d/max-execution-time.ini
+  #   links:
+  #     - ecloud-db
+  #     - redis
 
-  ecloud-db:
-    container_name: ecloud-db
-    image: mariadb
-    restart: always
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.17
-    environment:
-      - MYSQL_DATABASE=${ECLOUD_DATABASE}
-      - MYSQL_USER=${ECLOUD_DB_USER}
-      - MYSQL_PASSWORD=${ECLOUD_DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${ECLOUD_DB_ROOT_PASSWORD}
-      - MYSQL_INITDB_SKIP_TZINFO=1
-      - MYSQL_QUERY_CACHE_SIZE=64M
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
-    tty: true
-    volumes:
-      - ecloud-db:/var/lib/mysql
-      - ./ecloud-db-backup:/tmp/ecloud-backup
+  # ecloud-db:
+  #   container_name: ecloud-db
+  #   image: mariadb
+  #   restart: always
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.17
+  #   environment:
+  #     - MYSQL_DATABASE=${ECLOUD_DATABASE}
+  #     - MYSQL_USER=${ECLOUD_DB_USER}
+  #     - MYSQL_PASSWORD=${ECLOUD_DB_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${ECLOUD_DB_ROOT_PASSWORD}
+  #     - MYSQL_INITDB_SKIP_TZINFO=1
+  #     - MYSQL_QUERY_CACHE_SIZE=64M
+  #   command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --innodb-file-per-table=1 --skip-innodb-read-only-compressed
+  #   tty: true
+  #   volumes:
+  #     - ecloud-db:/var/lib/mysql
+  #     - ./ecloud-db-backup:/tmp/ecloud-backup
   
-  redis:
-    image: redis
-    container_name: redis
-    restart: always
-    ports:
-      - "6379:6379"
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.18
+  # redis:
+  #   image: redis
+  #   container_name: redis
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.18
 
   # geekcast:
   #   container_name: geekcast
@@ -215,77 +215,77 @@ services:
   #   networks:
   #     - docker-network
 
-  syorifactory-proxy:
-    container_name: syorifactory-proxy
-    image: nginx:latest
-    restart: always
-    ports:
-      - "25566:25566"
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.12
-    environment:
-      - VIRTUAL_HOST=sinohiro.f5.si
-      - VIRTUAL_PORT=25566
-      - LETSENCRYPT_HOST=sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - ./nginx/proxy/syorifactory_proxy.conf:/etc/nginx/nginx.conf
+  # syorifactory-proxy:
+  #   container_name: syorifactory-proxy
+  #   image: nginx:latest
+  #   restart: always
+  #   ports:
+  #     - "25566:25566"
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.12
+  #   environment:
+  #     - VIRTUAL_HOST=sinohiro.f5.si
+  #     - VIRTUAL_PORT=25566
+  #     - LETSENCRYPT_HOST=sinohiro.f5.si
+  #     - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #   volumes:
+  #     - ./nginx/proxy/syorifactory_proxy.conf:/etc/nginx/nginx.conf
 
-  syorifactory-map-proxy:
-    container_name: syorifactory-map-proxy
-    image: nginx:latest
-    restart: always
-    ports:
-      - "80"
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.13
-    environment:
-      - VIRTUAL_HOST=sfmap.sinohiro.f5.si
-      - LETSENCRYPT_HOST=sfmap.sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - ./nginx/proxy/syorifactory-map_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
+  # syorifactory-map-proxy:
+  #   container_name: syorifactory-map-proxy
+  #   image: nginx:latest
+  #   restart: always
+  #   ports:
+  #     - "80"
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.13
+  #   environment:
+  #     - VIRTUAL_HOST=sfmap.sinohiro.f5.si
+  #     - LETSENCRYPT_HOST=sfmap.sinohiro.f5.si
+  #     - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #   volumes:
+  #     - ./nginx/proxy/syorifactory-map_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
 
-  nginx-proxy:
-    #build:
-    #  context: ./nginx/proxy
-    container_name: nginx-proxy
-    image: jwilder/nginx-proxy
-    environment:
-      - ENABLE_IPV6=true
-    restart: always
-    privileged: true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - certs:/etc/nginx/certs:ro
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/proxy/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.10
+  # nginx-proxy:
+  #   #build:
+  #   #  context: ./nginx/proxy
+  #   container_name: nginx-proxy
+  #   image: jwilder/nginx-proxy
+  #   environment:
+  #     - ENABLE_IPV6=true
+  #   restart: always
+  #   privileged: true
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - certs:/etc/nginx/certs:ro
+  #     - vhost:/etc/nginx/vhost.d
+  #     - html:/usr/share/nginx/html
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - ./nginx/proxy/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.10
 
-  letsencrypt:
-    image: nginxproxy/acme-companion
-    container_name: letsencrypt
-    environment:
-      - DEFAULT_EMAIL=sinohiro966@gmail.com
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-    volumes:
-      - acme:/etc/acme.sh
-      - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: always
-    networks:
-      docker-network:
-        ipv4_address: 172.19.0.11
+  # letsencrypt:
+  #   image: nginxproxy/acme-companion
+  #   container_name: letsencrypt
+  #   environment:
+  #     - DEFAULT_EMAIL=sinohiro966@gmail.com
+  #     - NGINX_PROXY_CONTAINER=nginx-proxy
+  #   volumes:
+  #     - acme:/etc/acme.sh
+  #     - certs:/etc/nginx/certs
+  #     - vhost:/etc/nginx/vhost.d
+  #     - html:/usr/share/nginx/html
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   restart: always
+  #   networks:
+  #     docker-network:
+  #       ipv4_address: 172.19.0.11
 
 networks:
   docker-network:
@@ -300,20 +300,23 @@ networks:
         - subnet: 172.19.0.0/24
 
 volumes:
-  certs:
-  vhost:
-  html:
-  acme:
-  ecloud:
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-web/sinohiroHP-docker/ecloud
-      o: bind
-  ecloud-db: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-web/sinohiroHP-docker/ecloud-db
-      o: bind
+  nuxt_node_modules:
+
+# volumes:
+  # certs:
+  # vhost:
+  # html:
+  # acme:
+  # ecloud:
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/sinohiro-web/sinohiroHP-docker/ecloud
+  #     o: bind
+  # ecloud-db: 
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/sinohiro-web/sinohiroHP-docker/ecloud-db
+  #     o: bind
   # geekcast: 
   #   driver_opts:
   #     type: none
