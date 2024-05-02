@@ -25,10 +25,11 @@ services:
     ports:
       - "80"
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.14
     environment:
       - VIRTUAL_HOST=sinohiro.f5.si, 192.168.1.*, sinohiro.dip.jp, sinohiro.net
-      - LETSENCRYPT_HOST=sinohiro.f5.si
+      - LETSENCRYPT_HOST=sinohiro.f5.si, sinohiro.net
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
       - ./sinohiroHP/dist:/var/www/html
@@ -41,7 +42,8 @@ services:
     image: php:7-fpm
     restart: always
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.15
     volumes: 
       - ./sinohiroHP/dist:/var/www/html
       - ./nginx/Build_WebGL:/var/www/html/Build_WebGL
@@ -57,13 +59,15 @@ services:
     ports:
       - "80"
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.16
     environment:
       - MYSQL_HOST=ecloud-db
-      - PHP_MEMORY_LIMIT=2048M
+      - PHP_MEMORY_LIMIT=4096M
       - PHP_UPLOAD_LIMIT=51200M
       - APACHE_DISABLE_REWRITE_IP=1
-      - TRUSTED_PROXIES=127.0.0.1
+      - APACHE_BODY_LIMIT=0
+      - TRUSTED_PROXIES=172.19.0.10
       - OVERWRITEHOST=ecloud.sinohiro.f5.si
       - OVERWRITEPROTOCOL=https
       - VIRTUAL_HOST=ecloud.sinohiro.f5.si
@@ -81,7 +85,8 @@ services:
     image: mariadb
     restart: always
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.17
     environment:
       - MYSQL_DATABASE=${ECLOUD_DATABASE}
       - MYSQL_USER=${ECLOUD_DB_USER}
@@ -93,6 +98,7 @@ services:
     tty: true
     volumes:
       - ecloud-db:/var/lib/mysql
+      - ./ecloud-db-backup:/tmp/ecloud-backup
   
   redis:
     image: redis
@@ -101,41 +107,42 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.18
 
-  geekcast:
-    container_name: geekcast
-    image: wordpress:latest
-    restart: always
-    ports:
-      - "80"
-    networks:
-      - docker-network
-    environment:
-      - WORDPRESS_DB_HOST=geekcast-db
-      - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
-      - VIRTUAL_HOST=blog.sinohiro.f5.si
-      - LETSENCRYPT_HOST=blog.sinohiro.f5.si
-      - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
-    volumes:
-      - geekcast:/var/www/html
-    links:
-      - geekcast-db
-  geekcast-db:
-    container_name: geekcast-db
-    image: mariadb
-    restart: always
-    volumes:
-      - geekcast-db:/var/lib/mysql
-    environment:
-      - TZ=Asia/Tokyo
-      - MYSQL_DATABASE=${GEEKCAST_DATABASE}
-      - MYSQL_USER=${GEEKCAST_DB_USER}
-      - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
-    networks:
-      - docker-network
+  # geekcast:
+  #   container_name: geekcast
+  #   image: wordpress:latest
+  #   restart: always
+  #   ports:
+  #     - "80"
+  #   networks:
+  #     - docker-network
+  #   environment:
+  #     - WORDPRESS_DB_HOST=geekcast-db
+  #     - WORDPRESS_DB_USER=${GEEKCAST_DB_USER}
+  #     - WORDPRESS_DB_PASSWORD=${GEEKCAST_DB_PASSWORD}
+  #     - VIRTUAL_HOST=blog.sinohiro.f5.si
+  #     - LETSENCRYPT_HOST=blog.sinohiro.f5.si
+  #     - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #   volumes:
+  #     - geekcast:/var/www/html
+  #   links:
+  #     - geekcast-db
+  # geekcast-db:
+  #   container_name: geekcast-db
+  #   image: mariadb
+  #   restart: always
+  #   volumes:
+  #     - geekcast-db:/var/lib/mysql
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #     - MYSQL_DATABASE=${GEEKCAST_DATABASE}
+  #     - MYSQL_USER=${GEEKCAST_DB_USER}
+  #     - MYSQL_PASSWORD=${GEEKCAST_DB_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${GEEKCAST_DB_ROOT_PASSWORD}
+  #   networks:
+  #     - docker-network
 
   #kitamatch:
   #  container_name: kitamatch
@@ -172,56 +179,74 @@ services:
   #  networks:
   #    - docker-network
 
-  u16procon:
-    container_name: u16procon
-    image: wordpress:latest
+  # u16procon:
+  #   container_name: u16procon
+  #   image: wordpress:latest
+  #   restart: always
+  #   ports:
+  #     - "80"
+  #   networks:
+  #     - docker-network
+  #   environment:
+  #     - WORDPRESS_DB_HOST=u16procon-db
+  #     - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
+  #     - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
+  #     - WORDPRESS_DEBUG=true
+  #     - VIRTUAL_HOST=u16procon.sinohiro.f5.si
+  #     - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
+  #     - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
+  #   volumes:
+  #     - u16procon:/var/www/html
+  #     - ./php/php.ini:/usr/local/etc/php/php.ini
+  #   links:
+  #     - u16procon-db
+  # u16procon-db:
+  #   container_name: u16procon-db
+  #   image: mariadb
+  #   restart: always
+  #   volumes:
+  #     - u16procon-db:/var/lib/mysql
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #     - MYSQL_DATABASE=${U16PROCON_DATABASE}
+  #     - MYSQL_USER=${U16PROCON_DB_USER}
+  #     - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
+  #   networks:
+  #     - docker-network
+
+  syorifactory-proxy:
+    container_name: syorifactory-proxy
+    image: nginx:latest
     restart: always
     ports:
-      - "80"
+      - "25566:25566"
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.12
     environment:
-      - WORDPRESS_DB_HOST=u16procon-db
-      - WORDPRESS_DB_USER=${U16PROCON_DB_USER}
-      - WORDPRESS_DB_PASSWORD=${U16PROCON_DB_PASSWORD}
-      - WORDPRESS_DEBUG=true
-      - VIRTUAL_HOST=u16procon.sinohiro.f5.si
-      - LETSENCRYPT_HOST=u16procon.sinohiro.f5.si
+      - VIRTUAL_HOST=sinohiro.f5.si
+      - VIRTUAL_PORT=25566
+      - LETSENCRYPT_HOST=sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
-      - u16procon:/var/www/html
-      - ./php/php.ini:/usr/local/etc/php/php.ini
-    links:
-      - u16procon-db
-  u16procon-db:
-    container_name: u16procon-db
-    image: mariadb
-    restart: always
-    volumes:
-      - u16procon-db:/var/lib/mysql
-    environment:
-      - TZ=Asia/Tokyo
-      - MYSQL_DATABASE=${U16PROCON_DATABASE}
-      - MYSQL_USER=${U16PROCON_DB_USER}
-      - MYSQL_PASSWORD=${U16PROCON_DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${U16PROCON_DB_ROOT_PASSWORD}
-    networks:
-      - docker-network
+      - ./nginx/proxy/syorifactory_proxy.conf:/etc/nginx/nginx.conf
 
-  truenas-proxy:
-    container_name: truenas-proxy
+  syorifactory-map-proxy:
+    container_name: syorifactory-map-proxy
     image: nginx:latest
     restart: always
     ports:
       - "80"
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.13
     environment:
-      - VIRTUAL_HOST=nas.sinohiro.f5.si
-      - LETSENCRYPT_HOST=nas.sinohiro.f5.si
+      - VIRTUAL_HOST=sfmap.sinohiro.f5.si
+      - LETSENCRYPT_HOST=sfmap.sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
-      - ./nginx/proxy/truenas_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
+      - ./nginx/proxy/syorifactory-map_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
 
   nginx-proxy:
     #build:
@@ -242,7 +267,8 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx/proxy/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.10
 
   letsencrypt:
     image: nginxproxy/acme-companion
@@ -258,12 +284,20 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: always
     networks:
-      - docker-network
+      docker-network:
+        ipv4_address: 172.19.0.11
 
 networks:
   docker-network:
-    external:
-      name: sinohiro-server
+    name: sinohiro-server
+    # IPアドレス管理（IPAM）の設定
+    ipam:
+      # IPAMドライバーを指定
+      driver: default
+
+      # ネットワークのサブネット設定
+      config:
+        - subnet: 172.19.0.0/24
 
 volumes:
   certs:
@@ -273,30 +307,30 @@ volumes:
   ecloud:
     driver_opts:
       type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/ecloud
+      device: /mnt/sinohiro-web/sinohiroHP-docker/ecloud
       o: bind
   ecloud-db: 
     driver_opts:
       type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/ecloud-db
+      device: /mnt/sinohiro-web/sinohiroHP-docker/ecloud-db
       o: bind
-  geekcast: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast
-      o: bind
-  geekcast-db: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast-db
-      o: bind
-  u16procon: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/u16procon
-      o: bind
-  u16procon-db: 
-    driver_opts:
-      type: none
-      device: /mnt/sinohiro-server_storage/sinohiroHP-docker/u16procon-db
-      o: bind
+  # geekcast: 
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast
+  #     o: bind
+  # geekcast-db: 
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/sinohiro-server_storage/sinohiroHP-docker/geekcast-db
+  #     o: bind
+  # u16procon: 
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/sinohiro-server_storage/sinohiroHP-docker/u16procon
+  #     o: bind
+  # u16procon-db: 
+  #   driver_opts:
+  #     type: none
+  #     device: /mnt/sinohiro-server_storage/sinohiroHP-docker/u16procon-db
+  #     o: bind

@@ -1,6 +1,7 @@
 #ecloud
 ecloud/*
 ecloud-db/*
+old-ecloud-db/*
 
 wordpress/*
 
