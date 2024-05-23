@@ -4,7 +4,7 @@
     absolute
   >
     <div class="footer">
-      Copyright 2021. All right reserved
+      Copyright 2024. All right reserved
     </div>
   </v-footer>
 </template>

@@ -74,9 +74,9 @@
                           outlined
                           rounded
                           x-large
-                          href="https://kcmap.sinohiro.f5.si/"
+                          href="https://sfmap.sinohiro.f5.si/"
                           target="_blank"
-                        >1.12.2 New Kushiro City Web Map</v-btn>
+                        >1.20.1 syorifactory Web Map</v-btn>
                       </v-card-actions>
                     </div>
                     <v-img 

@@ -1,22 +1,22 @@
 version: '3'
 services:
-  #nuxt:
-  #  container_name: build-sinohiroHP
-  #  build: ./sinohiroHP
-  #
-  #  # イメージ名
-  #  image: nuxt_app_image
-  #
-  #  # ホストOSとコンテナ内でソースコードを共有
-  #  volumes:
-  #   - ./sinohiroHP:/app
-  #  tty: true
-  #
-  #  # コンテナ内部の3000を外部から3000でアクセス
-  #  ports:
-  #   - "3000:3000"
-  #  
-  #  restart: always
+  # nuxt:
+  #   container_name: build-sinohiroHP
+  #   build: ./sinohiroHP
+  
+  #   # イメージ名
+  #   image: nuxt_app_image
+  
+  #   # ホストOSとコンテナ内でソースコードを共有
+  #   volumes:
+  #    - ./sinohiroHP:/app
+  #   tty: true
+  
+  #   # コンテナ内部の3000を外部から3000でアクセス
+  #   ports:
+  #    - "3000:3000"
+    
+  #   restart: always
 
   sinohiro-HP:
     container_name: sinohiro-HP
@@ -220,14 +220,14 @@ services:
     image: nginx:latest
     restart: always
     ports:
-      - "25566:25566"
+      - "25565:25565"
     networks:
       docker-network:
         ipv4_address: 172.19.0.12
     environment:
-      - VIRTUAL_HOST=sinohiro.f5.si
-      - VIRTUAL_PORT=25566
-      - LETSENCRYPT_HOST=sinohiro.f5.si
+      - VIRTUAL_HOST=syorifactory.sinohiro.f5.si
+      - VIRTUAL_PORT=25565
+      - LETSENCRYPT_HOST=syorifactory.sinohiro.f5.si
       - LETSENCRYPT_EMAIL=sinohiro966@gmail.com
     volumes:
       - ./nginx/proxy/syorifactory_proxy.conf:/etc/nginx/nginx.conf

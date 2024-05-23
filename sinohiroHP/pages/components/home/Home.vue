@@ -15,8 +15,11 @@
             
             <h2>School</h2>
 						<p>釧路工業高等専門学校 2022年3月卒業<br>
-						National Institute of Technology, Kushiro College</p>
-            <p>北見工業大学</p>
+						National Institute of Technology, Kushiro College Graduation in March 2022</p>
+            <p>北見工業大学 2024年3月卒業<br>
+            Kitami Institute of Technology Graduated in March 2024</p>
+            <p>北見工業大学 大学院 在学<br>
+            Kitami Institute of Technology Graduate School Student </p>
             <v-btn
               x-large
               depressed
