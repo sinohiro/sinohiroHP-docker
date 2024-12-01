@@ -5,6 +5,8 @@
 
 (追記2021.07.31) dockerも勉強したくてdockerで動くようにした.
 
+(追記2024.12.01) ecloud(NextCloud)は別リポジトリに移動しました.
+
 ## Requirement
  
 * docker
