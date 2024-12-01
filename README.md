@@ -4,6 +4,7 @@
 この際にNuxt.js使ってSPAなwebページにしようと思って立ち上げた
 
 (追記2021.07.31) dockerも勉強したくてdockerで動くようにした.
+(追記2024.12.01) ecloud(NextCloud)は別リポジトリに移動しました.
 
 ## Requirement
  
@@ -107,6 +108,11 @@ array (
     2 => 'sinohiro.dip.jp',
 ),
 ```
+how to docker compose command run
+```bash
+docker-compose exec -u www-data ecloud php occ maintenance:repair --include-expensive
+```
+
 ### npm run した際にseverity vulnerabilitiesと出た場合.
 ここを見て対処してください
 
