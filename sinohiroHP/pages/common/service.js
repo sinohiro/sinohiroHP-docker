@@ -18,14 +18,14 @@ export default {
         linkname: null,
         url: 'https://ecloud.sinohiro.f5.si/'
       },
-      {
-        color: '#006400',
-        name: 'GeekCast',
-        contents: 'sinohiro serverで稼働しているブログサイト\n不定期で好きなことをつぶやいてます',
-        img: null,
-        bgimg: null,
-        linkname: null,
-        url: 'https://blog.sinohiro.f5.si/'
-      },
+      // {
+      //   color: '#006400',
+      //   name: 'GeekCast',
+      //   contents: 'sinohiro serverで稼働しているブログサイト\n不定期で好きなことをつぶやいてます',
+      //   img: null,
+      //   bgimg: null,
+      //   linkname: null,
+      //   url: 'https://blog.sinohiro.f5.si/'
+      // },
     ]
   }

@@ -56,7 +56,8 @@
                         
                         <p>Minecraftでは, Java Edition, Bedrock Edition, およびEducation Editionの3つのエディションが提供されています.</p>
                         
-                        <p>現在当サーバで稼働しているサーバはJava Editionとなります.</p>
+                        <p>現在当サーバで稼働しているサーバはJava Edition Neoforge環境となります.</p>
+                        <p>導入modについては管理者に連絡をお願いします.</p>
                       </v-card-text>
 
                       <v-card-actions v-if="gameItem.linkname !== null">
@@ -74,9 +75,9 @@
                           outlined
                           rounded
                           x-large
-                          href="https://sfmap.sinohiro.f5.si/"
+                          href="https://mi.sinohiro.f5.si/"
                           target="_blank"
-                        >1.20.1 syorifactory Web Map</v-btn>
+                        >1.21.1 magindustrial Web Map</v-btn>
                       </v-card-actions>
                     </div>
                     <v-img 
