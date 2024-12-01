@@ -11,6 +11,15 @@ export default {
       },
       {
         color: '#1F7087',
+        name: '反射神経ゲーム2',
+        contents: '釧路高専オープンキャンパス2021で公開されていた作品\nWebGLで動きます.\nキーボード操作のみ動作可能',
+        img: null,
+        bgimg: null,
+        linkname: 'プレイ',
+        url: 'Build_WebGL/index.html'
+      },
+      {
+        color: '#1F7087',
         name: 'Factorio',
         contents: 'sinohiro serverではFactorio serverが稼働中です.\nゲーム内の「直接接続」から[sinohiro.dip.jp]で接続すると遊ぶことができます.',
         img: 'factorio_logo.png',
@@ -26,15 +35,6 @@ export default {
         bgimg: '7daystodie.jpg',
         linkname: '7Days To Die 公式ホームページ',
         url: 'https://7daystodie.com/'
-      },
-      {
-        color: '#1F7087',
-        name: '反射神経ゲーム2',
-        contents: '釧路高専オープンキャンパス2021で公開されていた作品\nWebGLで動きます.\nキーボード操作のみ動作可能',
-        img: null,
-        bgimg: null,
-        linkname: 'プレイ',
-        url: 'Build_WebGL/index.html'
       }
     ]
   }

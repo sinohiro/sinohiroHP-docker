@@ -1,6 +1,0 @@
-.DS_Store
-Thumbs.db
-.vagrant
-
-docker-compose.yml
-!docker-compose.example.yml
